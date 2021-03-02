@@ -100,7 +100,7 @@ namespace rviz_common
 
 VisualizationFrame::VisualizationFrame(
   ros_integration::RosNodeAbstractionIface::WeakPtr rviz_ros_node, QWidget * parent)
-: QMainWindow(parent),
+: QWidget(parent),
   app_(nullptr),
   render_panel_(nullptr),
   show_help_action_(nullptr),
@@ -137,18 +137,21 @@ VisualizationFrame::VisualizationFrame(
   auto * reset_button = new QToolButton();
   reset_button->setText("Reset");
   reset_button->setContentsMargins(0, 0, 0, 0);
-  statusBar()->addPermanentWidget(reset_button, 0);
+  // FIXME
+  // statusBar()->addPermanentWidget(reset_button, 0);
   connect(reset_button, SIGNAL(clicked(bool)), this, SLOT(reset()));
 
   status_label_ = new QLabel("");
-  statusBar()->addPermanentWidget(status_label_, 1);
+  // FIXME
+  // statusBar()->addPermanentWidget(status_label_, 1);
   connect(this, SIGNAL(statusUpdate(const QString&)), status_label_, SLOT(setText(const QString&)));
 
   fps_label_ = new QLabel("");
   fps_label_->setMinimumWidth(40);
   fps_label_->setAlignment(Qt::AlignRight);
-  statusBar()->addPermanentWidget(fps_label_, 0);
-  original_status_bar_ = statusBar();
+  // FIXME
+  // statusBar()->addPermanentWidget(fps_label_, 0);
+  // original_status_bar_ = statusBar();
 
   setWindowTitle("RViz[*]");
 }
@@ -190,9 +193,12 @@ void VisualizationFrame::updateFps()
     float fps = frame_count_ / std::chrono::duration_cast<duration<double>>(wall_diff).count();
     frame_count_ = 0;
     last_fps_calc_time_ = std::chrono::steady_clock::now();
+    // FIXME
+    /*
     if (original_status_bar_ == statusBar()) {
       fps_label_->setText(QString::number(static_cast<int>(fps)) + QString(" fps"));
     }
+     */
   }
 }
 
@@ -316,7 +322,8 @@ void VisualizationFrame::initialize(
   // Periodically process events for the splash screen.
   if (app_) {app_->processEvents();}
 
-  setCentralWidget(central_widget);
+  // FIXME
+  // setCentralWidget(central_widget);
 
   // Periodically process events for the splash screen.
   if (app_) {app_->processEvents();}
@@ -456,7 +463,8 @@ void VisualizationFrame::savePersistentSettings()
 
 void VisualizationFrame::initMenus()
 {
-  file_menu_ = menuBar()->addMenu("&File");
+  // FIXME
+  // file_menu_ = menuBar()->addMenu("&File");
 
   QAction * file_menu_open_action = file_menu_->addAction(
     "&Open Config", this, SLOT(
@@ -485,10 +493,11 @@ void VisualizationFrame::initMenus()
       close()), QKeySequence("Ctrl+Q"));
   this->addAction(file_menu_quit_action);
 
-  view_menu_ = menuBar()->addMenu("&Panels");
-  view_menu_->addAction("Add &New Panel", this, SLOT(openNewPanelDialog()));
-  delete_view_menu_ = view_menu_->addMenu("&Delete Panel");
-  delete_view_menu_->setEnabled(false);
+  // FIXME
+  //view_menu_ = menuBar()->addMenu("&Panels");
+  // view_menu_->addAction("Add &New Panel", this, SLOT(openNewPanelDialog()));
+  // delete_view_menu_ = view_menu_->addMenu("&Delete Panel");
+  // delete_view_menu_->setEnabled(false);
 
   QAction * fullscreen_action = view_menu_->addAction(
     "&Fullscreen", this, SLOT(
@@ -500,11 +509,14 @@ void VisualizationFrame::initMenus()
   new QShortcut(Qt::Key_Escape, this, SLOT(exitFullScreen()));
   view_menu_->addSeparator();
 
+  // FIXME
+  /*
   QMenu * help_menu = menuBar()->addMenu("&Help");
   help_menu->addAction("Show &Help panel", this, SLOT(showHelpPanel()));
   help_menu->addAction("Open rviz wiki in browser", this, SLOT(onHelpWiki()));
   help_menu->addSeparator();
   help_menu->addAction("&About", this, SLOT(onHelpAbout()));
+   */
 }
 
 void VisualizationFrame::initToolbars()
@@ -514,6 +526,8 @@ void VisualizationFrame::initToolbars()
 
   // make toolbar with plugin tools
 
+  // FIXME
+  /*
   toolbar_ = addToolBar("Tools");
   toolbar_->setFont(font);
   toolbar_->setContentsMargins(0, 0, 0, 0);
@@ -530,6 +544,7 @@ void VisualizationFrame::initToolbars()
   add_tool_action_->setIcon(loadPixmap("package://rviz_common/icons/plus.png"));
   toolbar_->addAction(add_tool_action_);
   connect(add_tool_action_, SIGNAL(triggered()), this, SLOT(openNewToolDialog()));
+  */
 
   remove_tool_menu_ = new QMenu();
   QToolButton * remove_tool_button = new QToolButton();
@@ -543,8 +558,11 @@ void VisualizationFrame::initToolbars()
       onToolbarRemoveTool(QAction*)));
 }
 
+
+// FIXME
 void VisualizationFrame::hideDockImpl(Qt::DockWidgetArea area, bool hide)
 {
+  /*
   QList<PanelDockWidget *> dock_widgets = findChildren<PanelDockWidget *>();
 
   for (QList<PanelDockWidget *>::iterator it = dock_widgets.begin(); it != dock_widgets.end();
@@ -561,6 +579,7 @@ void VisualizationFrame::hideDockImpl(Qt::DockWidgetArea area, bool hide)
       (*it)->setAllowedAreas((*it)->allowedAreas() | area);
     }
   }
+   */
 }
 
 void VisualizationFrame::setHideButtonVisibility(bool visible)
@@ -581,8 +600,10 @@ void VisualizationFrame::hideRightDock(bool hide)
   hide_right_dock_button_->setArrowType(hide ? Qt::LeftArrow : Qt::RightArrow);
 }
 
+// FIXME
 void VisualizationFrame::onDockPanelVisibilityChange(bool visible)
 {
+  /*
   // if a dock widget becomes visible and is resting inside the
   // left or right dock area, we want to unhide the whole area
   if (visible) {
@@ -597,6 +618,7 @@ void VisualizationFrame::onDockPanelVisibilityChange(bool visible)
       }
     }
   }
+  */
 }
 
 void VisualizationFrame::openNewPanelDialog()
@@ -822,10 +844,13 @@ void VisualizationFrame::loadWindowGeometry(const Config & config)
     resize(width, height);
   }
 
+  // FIXME
+  /*
   QString main_window_config;
   if (config.mapGetString("QMainWindow State", &main_window_config)) {
     restoreState(QByteArray::fromHex(qPrintable(main_window_config)));
   }
+   */
 
   // load panel dock widget states (collapsed or not)
   QList<PanelDockWidget *> dock_widgets = findChildren<PanelDockWidget *>();
@@ -856,8 +881,9 @@ void VisualizationFrame::saveWindowGeometry(Config config)
   config.mapSetValue("Width", width());
   config.mapSetValue("Height", height());
 
-  QByteArray window_state = saveState().toHex();
-  config.mapSetValue("QMainWindow State", window_state.constData());
+  // FIXME
+  // QByteArray window_state = saveState().toHex();
+  // config.mapSetValue("QMainWindow State", window_state.constData());
 
   config.mapSetValue("Hide Left Dock", hide_left_dock_button_->isChecked());
   config.mapSetValue("Hide Right Dock", hide_right_dock_button_->isChecked());
@@ -1210,9 +1236,11 @@ void VisualizationFrame::setFullScreen(bool full_screen)
   if (full_screen) {
     toolbar_visible_ = toolbar_->isVisible();
   }
-  menuBar()->setVisible(!full_screen);
-  toolbar_->setVisible(!full_screen && toolbar_visible_);
-  statusBar()->setVisible(!full_screen);
+  // FIXME
+  // menuBar()->setVisible(!full_screen);
+  // toolbar_->setVisible(!full_screen && toolbar_visible_);
+  // FIXME
+  // statusBar()->setVisible(!full_screen);
   setHideButtonVisibility(!full_screen);
 
   if (full_screen) {
@@ -1266,7 +1294,8 @@ PanelDockWidget * VisualizationFrame::addPane(
   dock->setContentWidget(panel);
   dock->setFloating(floating);
   dock->setObjectName(name);   // QMainWindow::saveState() needs objectName to be set.
-  addDockWidget(area, dock);
+  // FIXME
+  // addDockWidget(area, dock);
 
   // we want to know when that panel becomes visible
   connect(dock, SIGNAL(visibilityChanged(bool)), this, SLOT(onDockPanelVisibilityChange(bool)));

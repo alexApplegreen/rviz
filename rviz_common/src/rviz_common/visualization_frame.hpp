@@ -80,7 +80,7 @@ class WidgetGeometryChangeDetector;
  * At the top is a toolbar with Tools like "Move Camera", "Select", etc.
  * There is also a menu bar with file/open, etc.
  */
-class VisualizationFrame : public QMainWindow, public WindowManagerInterface
+class VisualizationFrame : public QWidget, public WindowManagerInterface
 {
   Q_OBJECT
 
